@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="wezz_postcode_layoutprocessor" xsi:type="object">Wezz\Postcode\Block\Checkout\LayoutProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\OneStepCheckout\Block\Checkout">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="wezz_postcode_osc_layoutprocessor" xsi:type="object">Wezz\Postcode\Block\Checkout\LayoutOSCProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="Wezz_Postcode_Config_Provider" xsi:type="object">Wezz\Postcode\Model\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

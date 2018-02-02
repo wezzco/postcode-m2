@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <postcodenl_api>
+            <general>
+                <enabled>0</enabled>
+            </general>
+            <advanced_config>
+                <use_street2_as_housenumber>0</use_street2_as_housenumber>
+                <use_street3_as_housenumber_addition>0</use_street3_as_housenumber_addition>
+                <block_postofficeboxaddresses>0</block_postofficeboxaddresses>
+                <never_hide_country>0</never_hide_country>
+                <admin_validation_enabled>1</admin_validation_enabled>
+            </advanced_config>
+            <development_config>
+                <api_url>https://api.postcode.nl</api_url>
+                <api_showcase>0</api_showcase>
+                <api_debug>0</api_debug>
+            </development_config>
+        </postcodenl_api>
+    </default>
+</config>

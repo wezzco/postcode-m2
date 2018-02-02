@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="postcodenl_api" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="999" translate="label">
+            <label>Postcode.nl API</label>
+            <tab>sales</tab>
+            <resource>Wezz_Postcode::config_wezz_postcode</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Configuration</label>
+                <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select" canRestore="1">
+                    <label>Enabled in frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_key" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+                    <label>API key</label>
+                    <validate>validate-length minimum-length-10</validate>
+                </field>
+                <field id="api_secret" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label comment" type="text">
+                    <label>API secret</label>
+                    <validate>validate-length minimum-length-10</validate>
+                    <comment><![CDATA[To get your Postcode.nl API key and secret, please register at <a href='https://services.postcode.nl/adresdata/adres-validatie' target='_blank'>Postcode.nl API</a>.]]></comment>
+                </field>
+            </group>
+            <group id="advanced_config" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Advanced Address API configuration</label>
+                <field id="use_street2_as_housenumber" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="select">
+                    <label>Separate housenumber</label>
+                    <comment><![CDATA[If you use the second 'street' field as a separate house-number field, enable this option.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="use_street3_as_housenumber_addition" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
+                    <label>Separate housenumber addition</label>
+                    <comment><![CDATA[If you use the third 'street' field as a separate house-number addition field, enable this option. (requires 'Separate housenumber' option to be enabled too)]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="block_postofficeboxaddresses" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
+                    <label>Block post office box addresses</label>
+                    <comment><![CDATA[This will consider 'post office box' (postbus) addresses invalid for all validated address fields.<br /><em>(though still allowed if address is added with 'manual' checkbox)</em>]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="never_hide_country" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
+                    <label>Always show country selector</label>
+                    <comment><![CDATA[For webshops with a more international audience, always show the country selection box.<br /><b>Developer Note</b>: If there are other fields next to the country selector, they will be disabled.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="development_config" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Development configuration</label>
+                <field id="api_url" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label comment" type="text">
+                    <label>API URL</label>
+                    <validate>url-validate</validate>
+                </field>
+                <field id="api_showcase" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
+                    <label>Enable API Showcase</label>
+                    <comment><![CDATA[By enabling this option, you will see what additional information the Postcode.nl API has to offer, every time your information is enriched.<br /><em>(this is not recommended in production environments!)</em>]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="api_debug" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
+                    <label>Show API Debug info</label>
+                    <comment><![CDATA[Additional debug information used for trouble-shooting will be sent by the Postcode.nl API extension.<br /><em>(this is not recommended in production environments!)</em>]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
