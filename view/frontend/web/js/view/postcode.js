@@ -92,15 +92,28 @@ define([
 
             if (!formData.postcode_disable && formData.country_id == settings.countryCode) {
                 self.updateFields(self.postcodeFields, 'visible', true);
-                self.updateFields(self.standardFields, 'disabled', true);
+                self.updateFields(self.standardFields, 'visible', false);
                 self.updateFields(self.standardPostcodeFields, 'visible', false);
                 self.updateFields(['region_id_input'], 'required', false);
                 self.getAddressByIp();
                 self.info(settings.translations.fillOut);
 
+                var streetElement = registry.get(self.parentName + '.street');
+                var additionalClasses = streetElement.get('additionalClasses');
+                additionalClasses["street-field-set"] = true;
+                streetElement.set('additionalClasses', additionalClasses);
+                $("fieldset.street").addClass("street-field-set");
+
             } else if (formData.country_id == settings.countryCode && formData.postcode_disable) {
                 self.updateFields(self.postcodeFields, 'visible', true);
-                self.updateFields(self.standardFields, 'disabled', false);
+                self.updateFields(self.standardFields, 'visible', true);
+
+                var streetElement = registry.get(self.parentName + '.street');
+                var additionalClasses = streetElement.get('additionalClasses');
+                additionalClasses["street-field-set"] = false;
+                streetElement.set('additionalClasses', additionalClasses);
+                $("fieldset.street").removeClass("street-field-set");
+
                 self.updateFields(self.standardPostcodeFields, 'visible', true);
                 self.updateFields(['region_id_input'], 'required', false);
                 self.error(null);
@@ -139,10 +152,18 @@ define([
                     self.updateFields(['street.0'], 'value', street0);
                 }
             } else {
+                self.updateFields(self.standardFields, 'visible', true);
+                self.updateFields(self.standardPostcodeFields, 'visible', true);
                 self.updateFields(self.postcodeFields, 'visible', false);
                 self.updateFields(['postcode_fieldset.postcode_housenumber'], 'visible', false);
-                self.updateFields(self.standardFields, 'disabled', false);
-                self.updateFields(self.standardPostcodeFields, 'visible', true);
+                self.updateFields(['postcode_fieldset.postcode_housenumber_addition'], 'visible', false);
+
+                var streetElement = registry.get(self.parentName + '.street');
+                var additionalClasses = streetElement.get('additionalClasses');
+                additionalClasses["street-field-set"] = false;
+                streetElement.set('additionalClasses', additionalClasses);
+                $("fieldset.street").removeClass("street-field-set");
+
                 self.error(null);
                 self.notice(null);
                 self.info(null);
@@ -161,6 +182,7 @@ define([
 
             $.each(fields, function (key, field) {
                 registry.async(self.parentName + '.' + field)(function () {
+                    console.log(field + ' - ' + property + ' - ' + value);
                     registry.get(self.parentName + '.' + field).set(property, value);
                 });
             });
@@ -174,29 +196,16 @@ define([
             self.debug('Postcode: updated fields by selected country');
 
             if (address && address.country_id == settings.countryCode && !address.postcode_disable) {
-                self.updateFields(self.postcodeFields, 'visible', true);
-                self.updateFields(self.standardFields, 'disabled', true);
-                self.updateFields(self.standardPostcodeFields, 'visible', false);
-                self.updateFields(['region'], 'visible', false);
-                self.updateFields(['region_id_input'], 'required', false);
                 self.info(settings.translations.fillOut);
-                this.postcodeRefresh();
+                self.postcodeRefresh();
             } else if (address && address.country_id == settings.countryCode && address.postcode_disable) {
-                self.updateFields(self.postcodeFields, 'visible', true);
-                self.updateFields(self.standardFields, 'disabled', false);
-                self.updateFields(self.standardPostcodeFields, 'visible', false);
-                self.error(null);
-                self.notice(null);
-                self.updateFields(['region_id_input'], 'required', false);
                 self.info(settings.translations.fillOut);
+                self.postcodeRefresh();
             } else {
-                self.updateFields(self.postcodeFields, 'visible', false);
-                self.updateFields(['postcode_fieldset.postcode_housenumber'], 'visible', false);
-                self.updateFields(self.standardFields, 'disabled', false);
-                self.updateFields(self.standardPostcodeFields, 'visible', true);
                 self.error(null);
                 self.notice(null);
                 self.info(null);
+                self.postcodeRefresh();
             }
         },
         /**
@@ -256,7 +265,7 @@ define([
             var self = this;
 
             if (address && address.country_id == settings.countryCode && address.postcode_disable) {
-                self.updateFields(self.standardFields, 'disabled', false);
+                self.updateFields(self.standardFields, 'visible', true);
                 self.updateFields(['postcode_fieldset.postcode_housenumber_addition'], 'visible', false);
                 var houseNumberAddition = registry.get(self.parentName + '.postcode_fieldset.postcode_housenumber_addition').value();
                 self.updateFields(['postcode_fieldset.postcode_housenumber_addition_manual'], 'value', houseNumberAddition);
@@ -270,11 +279,17 @@ define([
                 self.updateFields(self.postcodeFields, 'visible', true);
                 self.updateFields(['postcode_fieldset.postcode_housenumber_addition_manual'], 'visible', false);
                 self.updateFields(['postcode_fieldset.postcode_housenumber_addition'], 'visible', true);
-                self.updateFields(self.standardFields, 'disabled', true);
+                self.updateFields(self.standardFields, 'visible', false);
                 self.updateFields(self.standardPostcodeFields, 'visible', false);
                 self.getAddressByIp();
-
                 self.debug('Postcode: edit with Postcode API state');
+
+                var streetElement = registry.get(self.parentName + '.street');
+                var additionalClasses = streetElement.get('additionalClasses');
+                additionalClasses["street-field-set"] = true;
+                streetElement.set('additionalClasses', additionalClasses);
+                $("fieldset.street").addClass("street-field-set");
+
             }
         },
         /**
@@ -291,7 +306,7 @@ define([
          */
         renderAddressContent: function () {
             var addressContent = '<i>';
-            addressContent = '<h3>' + settings.translations.validatedAddress + '</h3>';
+            addressContent = '<h3>' + settings.translations.yourAddress + '</h3>';
 
             if (!this.source) {
                 return;

@@ -9,7 +9,7 @@ define(
         'use strict';
         return {
             checkDelay: 500,
-            standardFields: ['street.0', 'street.1', 'street.2', 'city'],
+            standardFields: ['street', 'street.0', 'street.1', 'street.2', 'city', 'region_id_input'],
             standardPostcodeFields: ['postcode'],
             postcodeDisableFields: [''],
             postcodeFields: [

@@ -167,6 +167,19 @@ class Config extends AbstractHelper
     }
 
     /**
+     * Get block post addresses configuration
+     *
+     * @return mixed
+     */
+    public function getBlockPostAddresses()
+    {
+        return $this->scopeConfig->getValue(
+            'postcodenl_api/advanced_config/block_postofficeboxaddresses',
+            $this->scopeStore
+        );
+    }
+
+    /**
      * Get settings set method
      *
      * @return array
@@ -174,20 +187,21 @@ class Config extends AbstractHelper
     public function getSettingsSet()
     {
         return array(
-          'timeout' => 0,
-          'enabled' => $this->getEnabled(),
-          'useStreet2AsHouseNumber' => $this->getUseStreet2AsHouseNumber(),
-          'useStreet3AsHouseNumber' => $this->getUseStreet3AsHouseNumber(),
-          'neverHideCountry' => $this->getNeverHideCountry(),
-          'apiDebug' => $this->getIsDebug(),
-          'apiShowcase' => $this->getApiShowcase(),
-          'countryCode' => 'NL',
-          'translations' => array(
-              'defaultError' => __('Unknown postcode + housenumber combination.'),
-              'fillOut' => __('<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address.'),
-              'select' => __('Select...'),
-              'validatedAddress' => __('Validated address')
-          )
+            'timeout' => 0,
+            'enabled' => $this->getEnabled(),
+            'useStreet2AsHouseNumber' => $this->getUseStreet2AsHouseNumber(),
+            'useStreet3AsHouseNumber' => $this->getUseStreet3AsHouseNumber(),
+            'neverHideCountry' => $this->getNeverHideCountry(),
+            'apiDebug' => $this->getIsDebug(),
+            'apiShowcase' => $this->getApiShowcase(),
+            'countryCode' => 'NL',
+            'translations' => array(
+                'defaultError' => __('Unknown postcode + housenumber combination.'),
+                'fillOut' => __('<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address.'),
+                'select' => __('Select...'),
+                'validatedAddress' => __('Validated address'),
+                'yourAddress' => __('Your address:')
+            )
         );
     }
 

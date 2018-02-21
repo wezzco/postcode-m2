@@ -93,7 +93,15 @@ class ClientApi
         $jsonResult = $this->callApiUrlGet($url);
 
         if ($this->httpResponseCode == 200 && !empty($jsonResult) && isset($jsonResult['postcode'])) {
-            $response = $jsonResult;
+
+            if ($this->helperConfig->getBlockPostAddresses() && isset($jsonResult['addressType']) && $jsonResult['addressType'] == 'PO box') {
+                $this->httpResponseCode = 400;
+                $response['message'] = __('Post office box not allowed.');
+                $response['messageTarget'] = 'postcode';
+            } else {
+                $response = $jsonResult;
+            }
+
         } else if (isset($jsonResult['exceptionId']) && ($this->httpResponseCode == 400 || $this->httpResponseCode == 404)) {
             switch ($jsonResult['exceptionId'])
             {
@@ -133,6 +141,9 @@ class ClientApi
             $response['showcaseResponse'] = $jsonResult;
         }
 
+        /**
+         * Check for block post addresses
+         */
         return $response;
     }
 

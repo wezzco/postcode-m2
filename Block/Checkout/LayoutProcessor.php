@@ -71,14 +71,50 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
             ['shipping-address-fieldset']['children'];
 
         $shippingFields['postcode_fieldset'] = $this->getFieldArray('shippingAddress', 'shipping');
-        
+
+        $shippingFields = $this->changeFieldPosition($shippingFields);
+
         $result['components']['checkout']['children']['steps']['children']
             ['shipping-step']['children']['shippingAddress']['children']
             ['shipping-address-fieldset']['children'] = $shippingFields;
 
+
+
         $result = $this->getBillingFormFields($result);
 
         return $result;
+    }
+
+    /**
+     * Method to change address field positions
+     *
+     * @param $addressFields
+     * @return mixed
+     */
+    public function changeFieldPosition($addressFields)
+    {
+
+        if (isset($addressFields['street'])) {
+            $addressFields['street']['sortOrder'] = '910';
+        }
+
+        if (isset($addressFields['postcode'])) {
+            $addressFields['postcode']['sortOrder'] = '930';
+        }
+
+        if (isset($addressFields['city'])) {
+            $addressFields['city']['sortOrder'] = '920';
+        }
+
+        if (isset($addressFields['region'])) {
+            $addressFields['region']['sortOrder'] = '940';
+        }
+
+        if (isset($addressFields['region_id'])) {
+            $addressFields['region_id']['sortOrder'] = '945';
+        }
+
+        return $addressFields;
     }
 
     /**
@@ -99,7 +135,7 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
                 "additionalClasses" => "postcode_fieldset",
                 "loaderImageHref" => $this->getViewFileUrl('images/loader-1.gif')
             ),
-            'sortOrder' => '1000',
+            'sortOrder' => '850',
             'children' => $this->getFields($customScope, $addressType),
             'provider' => 'checkoutProvider',
             'addressType' => $addressType
@@ -136,6 +172,9 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
 
                 $billingFields['postcode_fieldset'] = $this->getFieldArray('billingAddress' . $paymentMethodCode, 'billing');
 
+                $billingFields = $this->changeFieldPosition($billingFields);
+
+
                 $result['components']['checkout']['children']['steps']['children']['billing-step']
                 ['children']['payment']['children']['payments-list']['children'][$paymentMethodCode . '-form']
                 ['children']['form-fields']['children'] = $billingFields;
@@ -166,7 +205,7 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_postcode',
                     'label' => __('Postcode'),
-                    'sortOrder' => '1001',
+                    'sortOrder' => '800',
                     'validation' => array(
                         'required-entry' => true,
                         'min_text_length' => 6,
@@ -182,7 +221,7 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_housenumber',
                     'label' => __('Housenumber'),
-                    'sortOrder' => '1002',
+                    'sortOrder' => '801',
                     'validation' => array(
                         'required-entry' => true,
                     ),
@@ -197,7 +236,7 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_housenumber_addition',
                     'label' => __('Housenumber addition'),
-                    'sortOrder' => '1003',
+                    'sortOrder' => '802',
                     'validation' => array(
                         'required-entry' => false,
                     ),
@@ -214,7 +253,7 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_housenumber_addition_manual',
                     'label' => __('Housenumber addition'),
-                    'sortOrder' => '1004',
+                    'sortOrder' => '803',
                     'validation' => array(
                         'required-entry' => false,
                     ),
@@ -231,7 +270,7 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_disable',
                     'description' => __('Fill out address information manually'),
-                    'sortOrder' => '1005',
+                    'sortOrder' => '804',
                     'validation' => array(
                         'required-entry' => false,
                     ),

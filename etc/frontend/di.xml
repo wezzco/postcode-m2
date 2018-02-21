@@ -7,13 +7,6 @@
             </argument>
         </arguments>
     </type>
-    <type name="Aheadworks\OneStepCheckout\Block\Checkout">
-        <arguments>
-            <argument name="layoutProcessors" xsi:type="array">
-                <item name="wezz_postcode_osc_layoutprocessor" xsi:type="object">Wezz\Postcode\Block\Checkout\LayoutOSCProcessor</item>
-            </argument>
-        </arguments>
-    </type>
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">

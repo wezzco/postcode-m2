@@ -19,7 +19,8 @@
 "Postcode.nl API not configured.","Postcode.nl API not configured."
 "Postcode.nl API not enabled.","Postcode.nl API not enabled."
 "- disabled -","- disabled -"
-"Address validation","Address validation"
+"Address validation","Address validation",
+"Your address:","Your address:"
 "<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address.","<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address."
 "Manual input","Manual input"
 "Fill out address information manually","Fill out address information manually"
