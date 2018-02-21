@@ -8,7 +8,7 @@ Using this extension, you will have the following advantages
 - Reduce costs from undelivered mail and packages
 - Offer extra service for your customers with easy address entry
 
-To use the extions, you need an account with the Postcode.nl API. You [can sign up for an account here](https://account.postcode.nl/).
+To use this extension, you need an account with the Postcode.nl API. You [can sign up for an account here](https://account.postcode.nl/).
 
 The extension was created by Wezz e-Commerce B.V. for Postcode.nl B.V.
 
@@ -18,11 +18,11 @@ Check out the [Magento 1 exsension here](https://github.com/postcode-nl/Postcode
 
 __FAQ__
 
-If you have any question,please check the [FAQ on this page](https://www.wezz.co/extensions/postcode.nl-api-magento-extension).
+If you have any questions, please check the [FAQ on this page](https://www.wezz.co/extensions/postcode.nl-api-magento-extension).
 
 __API Documentation__
 
-This extension uses the Postcode.nl API. Documentation of the API can be found on the following URL
+This extension uses the Postcode.nl API. Full documentation of the API can be found on the following URL
 https://api.postcode.nl/documentation/rest-json-endpoint](https://api.postcode.nl/documentation/rest-json-endpoint)
 
 # Installation
@@ -79,12 +79,10 @@ Fill in the following fields to configure your Postcode.nl API Magento 2 module.
 | Field | Explanation |
 | :--- | :--- |
 | Enabled | Option to enable/disable the module on your Magento store |
-
-| Application key | Please find your Application key in your Yehhpay account |
-| Application secret | Please find your Application secret in your Yehhpay account |
+| Application key | Please find your Application key in your Postcode.nl account |
+| Application secret | Please find your Application secret in your Postcode.nl account |
 
 
 ## Troubleshooting
 
-
-For __Frequently Asked Questions__ please visit [postcode.nl-api-magento-extension](postcode.nl-api-magento-extension).
+For __Frequently Asked Questions__ please visit [https://www.wezz.co/extensions/postcode.nl-api-magento-extension](The FAQ page).
