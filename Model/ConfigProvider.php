@@ -32,11 +32,11 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function getConfig()
     {
-        return array(
+        return [
             'wezz_postcode' =>
-                array(
+                [
                     'settings' => $this->helperConfig->getSettingsSet()
-                )
-        );
+                ]
+        ];
     }
 }

@@ -6,13 +6,15 @@ define([
     'Wezz_Postcode/js/model/default',
     'Magento_Checkout/js/checkout-data',
     'uiRegistry'
-], function ($,
-             Abstract,
-             getAddressAction,
-             settings,
-             defaultInit,
-             checkoutData,
-             registry) {
+], function (
+    $,
+    Abstract,
+    getAddressAction,
+    settings,
+    defaultInit,
+    checkoutData,
+    registry
+) {
     'use strict';
     return Abstract.extend({
         defaults: defaultInit,
@@ -103,7 +105,6 @@ define([
                 additionalClasses["street-field-set"] = true;
                 streetElement.set('additionalClasses', additionalClasses);
                 $("fieldset.street").addClass("street-field-set");
-
             } else if (formData.country_id == settings.countryCode && formData.postcode_disable) {
                 self.updateFields(self.postcodeFields, 'visible', true);
                 self.updateFields(self.standardFields, 'visible', true);
@@ -137,7 +138,6 @@ define([
                         street1 += ' ' + formData.postcode_housenumber_addition_manual;
                     }
                     self.updateFields(['street.1'], 'value', street1);
-
                 } else if (settings.useStreet3AsHouseNumber != 0) {
                     self.updateFields(['street.0'], 'value', clearStreet);
                     self.updateFields(['street.1'], 'value', formData.postcode_housenumber.toString());
@@ -261,7 +261,7 @@ define([
          * Edit manually method
          * @param address
          */
-        editManually: function(address) {
+        editManually: function (address) {
             var self = this;
 
             if (address && address.country_id == settings.countryCode && address.postcode_disable) {
@@ -274,7 +274,6 @@ define([
                 self.error(null);
                 self.notice(null);
                 self.debug('Postcode: edit manually state');
-
             } else if (address && address.country_id == settings.countryCode && !address.postcode_disable) {
                 self.updateFields(self.postcodeFields, 'visible', true);
                 self.updateFields(['postcode_fieldset.postcode_housenumber_addition_manual'], 'visible', false);
@@ -289,7 +288,6 @@ define([
                 additionalClasses["street-field-set"] = true;
                 streetElement.set('additionalClasses', additionalClasses);
                 $("fieldset.street").addClass("street-field-set");
-
             }
         },
         /**
@@ -347,7 +345,6 @@ define([
             var formData = this.source.get(this.customScope);
 
             if (formData.postcode_postcode && formData.postcode_housenumber) {
-
                 this.validateRequest();
                 this.isLoading(true);
 
@@ -386,7 +383,6 @@ define([
                                 }
 
                                 self.updateFields(['street.1'], 'value', street1);
-
                             } else if (settings.useStreet3AsHouseNumber != 0) {
                                 self.updateFields(['street.0'], 'error', false);
                                 self.updateFields(['street.0'], 'value', response.street);
@@ -394,7 +390,6 @@ define([
                                 if (response.houseNumberAddition) {
                                     self.updateFields(['street.2'], 'value', response.houseNumberAddition);
                                 }
-
                             } else {
                                 var street0 = response.street + ' ' + response.houseNumber;
                                 if (response.houseNumberAddition) {
@@ -439,7 +434,6 @@ define([
             var self = this;
 
             if (additions.length > 1) {
-
                 var element = registry.get(this.parentName + '.postcode_fieldset.postcode_housenumber_addition');
 
                 var currentValue = element.value();
@@ -472,7 +466,6 @@ define([
                 });
 
                 if (JSON.stringify(tempCurrentArray) != JSON.stringify(tempNewArray)) {
-
                     self.debug('Postcode: update house number additions select list', tempNewArray);
 
                     self.updateFields(['postcode_fieldset.postcode_housenumber_addition'], 'visible', true);

@@ -72,7 +72,7 @@ class Data extends AbstractHelper
     {
         if ($this->getModuleInfo('Enterprise_CatalogPermissions') != null) {
             return 'MagentoEnterprise/' . $this->productMetadataInterface->getVersion();
-        } else if ($this->getModuleInfo('Enterprise_Enterprise') != null) {
+        } elseif ($this->getModuleInfo('Enterprise_Enterprise') != null) {
             return 'MagentoProfessional/' . $this->productMetadataInterface->getVersion();
         }
 
@@ -107,12 +107,12 @@ class Data extends AbstractHelper
             return $this->modules;
         }
 
-        $this->modules = array();
+        $this->modules = [];
 
         foreach ($this->moduleList->getAll() as $name => $module) {
-            $this->modules[$name] = array();
+            $this->modules[$name] = [];
             foreach ($module as $key => $value) {
-                if (in_array((string)$key, array('setup_version', 'name'))) {
+                if (in_array((string)$key, ['setup_version', 'name'])) {
                     $this->modules[$name][$key] = (string)$value;
                 }
             }
@@ -149,15 +149,13 @@ class Data extends AbstractHelper
      */
     public function checkCapabilities()
     {
-        $result = array();
+        $result = [];
 
         if (!$this->curlHasSsl()) {
-            $result = array(
-                'message' => $this->__('Cannot connect to Postcode.nl API: Server is missing SSL (https) support for CURL.'));
+            $result = [
+                'message' => $this->__('Cannot connect to Postcode.nl API: Server is missing SSL (https) support for CURL.')];
         }
 
         return $result;
     }
-
-
 }

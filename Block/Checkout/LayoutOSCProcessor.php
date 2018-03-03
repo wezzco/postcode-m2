@@ -39,13 +39,14 @@ class LayoutOSCProcessor extends AbstractBlock implements LayoutProcessorInterfa
     private function checkPostcode($result)
     {
         if ($this->helperConfig->getEnabled() && isset(
-                $result['components']
+            $result['components']
                 ['checkout']
                 ['children']
                 ['shippingAddress']
                 ['children']
                 ['shipping-address-fieldset']
-                ['children'])
+            ['children']
+        )
         ) {
             return true;
         } else {
@@ -86,20 +87,20 @@ class LayoutOSCProcessor extends AbstractBlock implements LayoutProcessorInterfa
      */
     private function getFieldArray($customScope, $addressType)
     {
-        return array(
+        return [
             'component' => 'Wezz_Postcode/js/view/postcode',
             'type' => 'group',
-            'config' => array(
+            'config' => [
                 "customScope" => $customScope,
                 "template" => 'Wezz_Postcode/form/fieldset',
                 "additionalClasses" => "postcode_fieldset",
                 "loaderImageHref" => $this->getViewFileUrl('images/loader-1.gif')
-            ),
+            ],
             'sortOrder' => '1000',
             'children' => $this->getFields($customScope, $addressType),
             'provider' => 'checkoutProvider',
             'addressType' => $addressType
-        );
+        ];
     }
 
     /**
@@ -149,89 +150,89 @@ class LayoutOSCProcessor extends AbstractBlock implements LayoutProcessorInterfa
     public function getFields($customScope, $addressType)
     {
         $postcodeFields =
-            array(
-                'postcode_postcode' => array(
+            [
+                'postcode_postcode' => [
                     'component' => 'Magento_Ui/js/form/element/abstract',
-                    'config' => array(
+                    'config' => [
                         "customScope" => $customScope,
                         "template" => 'ui/form/field',
                         "elementTmpl" => 'ui/form/element/input',
-                    ),
+                    ],
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_postcode',
                     'label' => __('Postcode'),
                     'sortOrder' => '1001',
-                    'validation' => array(
+                    'validation' => [
                         'required-entry' => true,
                         'min_text_length' => 6,
-                    )
-                ),
-                'postcode_housenumber' => array(
+                    ]
+                ],
+                'postcode_housenumber' => [
                     'component' => 'Magento_Ui/js/form/element/abstract',
-                    'config' => array(
+                    'config' => [
                         "customScope" => $customScope,
                         "template" => 'ui/form/field',
                         "elementTmpl" => 'ui/form/element/input'
-                    ),
+                    ],
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_housenumber',
                     'label' => __('Housenumber'),
                     'sortOrder' => '1002',
-                    'validation' => array(
+                    'validation' => [
                         'required-entry' => true,
-                    ),
-                ),
-                'postcode_housenumber_addition' => array(
+                    ],
+                ],
+                'postcode_housenumber_addition' => [
                     'component' => 'Magento_Ui/js/form/element/select',
-                    'config' => array(
+                    'config' => [
                         "customScope" => $customScope,
                         "template" => 'ui/form/field',
                         "elementTmpl" => 'ui/form/element/select'
-                    ),
+                    ],
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_housenumber_addition',
                     'label' => __('Housenumber addition'),
                     'sortOrder' => '1003',
-                    'validation' => array(
+                    'validation' => [
                         'required-entry' => false,
-                    ),
-                    'options' => array(),
+                    ],
+                    'options' => [],
                     'visible' => false,
-                ),
-                'postcode_housenumber_addition_manual' => array(
+                ],
+                'postcode_housenumber_addition_manual' => [
                     'component' => 'Magento_Ui/js/form/element/abstract',
-                    'config' => array(
+                    'config' => [
                         "customScope" => $customScope,
                         "template" => 'ui/form/field',
                         "elementTmpl" => 'ui/form/element/input'
-                    ),
+                    ],
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_housenumber_addition_manual',
                     'label' => __('Housenumber addition'),
                     'sortOrder' => '1004',
-                    'validation' => array(
+                    'validation' => [
                         'required-entry' => false,
-                    ),
-                    'options' => array(),
+                    ],
+                    'options' => [],
                     'visible' => false,
-                ),
-                'postcode_disable' => array(
+                ],
+                'postcode_disable' => [
                     'component' => 'Magento_Ui/js/form/element/abstract',
-                    'config' => array(
+                    'config' => [
                         "customScope" => $customScope,
                         "template" => 'ui/form/field',
                         "elementTmpl" => 'ui/form/element/checkbox'
-                    ),
+                    ],
                     'provider' => 'checkoutProvider',
                     'dataScope' => $customScope . '.postcode_disable',
                     'description' => __('Fill out address information manually'),
                     'sortOrder' => '1005',
-                    'validation' => array(
+                    'validation' => [
                         'required-entry' => false,
-                    ),
+                    ],
                     'addressType' => $addressType
-                )
-            );
+                ]
+            ];
 
         return $postcodeFields;
     }

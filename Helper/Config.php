@@ -186,7 +186,7 @@ class Config extends AbstractHelper
      */
     public function getSettingsSet()
     {
-        return array(
+        return [
             'timeout' => 0,
             'enabled' => $this->getEnabled(),
             'useStreet2AsHouseNumber' => $this->getUseStreet2AsHouseNumber(),
@@ -195,14 +195,14 @@ class Config extends AbstractHelper
             'apiDebug' => $this->getIsDebug(),
             'apiShowcase' => $this->getApiShowcase(),
             'countryCode' => 'NL',
-            'translations' => array(
+            'translations' => [
                 'defaultError' => __('Unknown postcode + housenumber combination.'),
                 'fillOut' => __('<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address.'),
                 'select' => __('Select...'),
                 'validatedAddress' => __('Validated address'),
                 'yourAddress' => __('Your address:')
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -239,10 +239,10 @@ class Config extends AbstractHelper
      */
     public function checkBasicApiSettings()
     {
-        $result = array();
+        $result = [];
 
         if (!$this->getApiUrl() || !$this->getApiKey() || !$this->getApiSecret()) {
-            $result = array('message' => __('Postcode.nl API not configured.'), 'info' => array(__('Configure your `API key` and `API secret`.')));
+            $result = ['message' => __('Postcode.nl API not configured.'), 'info' => [__('Configure your `API key` and `API secret`.')]];
         }
 
         return $result;

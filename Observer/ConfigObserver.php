@@ -48,10 +48,9 @@ class ConfigObserver implements ObserverInterface
         $result = $this->clientApi->testConnection();
 
         if (isset($result['status']) && isset($result['message'])) {
-
             if ($result['status'] == 'error') {
                 $this->messageManager->addError($result['message']);
-            } else if ($result['status'] == 'success') {
+            } elseif ($result['status'] == 'success') {
                 $this->messageManager->addSuccessMessage($result['message']);
             }
 
