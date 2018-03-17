@@ -9,7 +9,7 @@
         }
   ],
   "type": "magento2-module",
-  "version": "0.0.1",
+  "version": "1.0.4",
   "license": "MIT",
   "autoload": {
     "files": [ "registration.php" ],
