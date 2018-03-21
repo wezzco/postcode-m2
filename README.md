@@ -85,4 +85,4 @@ Fill in the following fields to configure your Postcode.nl API Magento 2 module.
 
 ## Troubleshooting
 
-For __Frequently Asked Questions__ please visit [https://www.wezz.co/extensions/postcode.nl-api-magento-extension](The FAQ page).
+For __Frequently Asked Questions__ please visit [https://www.wezz.co/extensions/postcode.nl-api-magento-extension] (The FAQ page).
