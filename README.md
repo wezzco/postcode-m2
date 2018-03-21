@@ -69,7 +69,7 @@ Now, you can log in to the Magento backend and configure and enable the extensio
 
 Navigate to the module configuration using the following path:
 
-__Stores__ -> __Configuration__ -> __Sales__ -> Postocde
+__Stores__ -> __Configuration__ -> __Sales__ -> Postcode
 
 ### Fields
 
