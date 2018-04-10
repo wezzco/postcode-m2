@@ -131,19 +131,19 @@ define([
                     clearStreet = streetArray[0];
                 }
 
-                if (settings.useStreet2AsHouseNumber != 0) {
+                if (settings.useStreet3AsHouseNumber != 0) {
+                    self.updateFields(['street.0'], 'value', clearStreet);
+                    self.updateFields(['street.1'], 'value', formData.postcode_housenumber.toString());
+                    if (formData.postcode_housenumber_addition_manual) {
+                        self.updateFields(['street.2'], 'value', formData.postcode_housenumber_addition_manual);
+                    }
+                } else if (settings.useStreet2AsHouseNumber != 0) {
                     self.updateFields(['street.0'], 'value', clearStreet);
                     var street1 = formData.postcode_housenumber.toString();
                     if (formData.postcode_housenumber_addition_manual) {
                         street1 += ' ' + formData.postcode_housenumber_addition_manual;
                     }
                     self.updateFields(['street.1'], 'value', street1);
-                } else if (settings.useStreet3AsHouseNumber != 0) {
-                    self.updateFields(['street.0'], 'value', clearStreet);
-                    self.updateFields(['street.1'], 'value', formData.postcode_housenumber.toString());
-                    if (formData.postcode_housenumber_addition_manual) {
-                        self.updateFields(['street.2'], 'value', formData.postcode_housenumber_addition_manual);
-                    }
                 } else {
                     var street0 = clearStreet + ' ' + formData.postcode_housenumber;
                     if (formData.postcode_housenumber_addition_manual) {
@@ -372,7 +372,14 @@ define([
                             self.debug('Postcode: API request result:');
                             self.debug(response);
 
-                            if (settings.useStreet2AsHouseNumber != 0) {
+                            if (settings.useStreet3AsHouseNumber != 0) {
+                                self.updateFields(['street.0'], 'error', false);
+                                self.updateFields(['street.0'], 'value', response.street);
+                                self.updateFields(['street.1'], 'value', response.houseNumber);
+                                if (response.houseNumberAddition) {
+                                    self.updateFields(['street.2'], 'value', response.houseNumberAddition);
+                                }
+                            } else if (settings.useStreet2AsHouseNumber != 0) {
                                 self.updateFields(['street.0', 'street.1'], 'error', false);
                                 self.updateFields(['street.0'], 'value', response.street);
 
@@ -383,13 +390,6 @@ define([
                                 }
 
                                 self.updateFields(['street.1'], 'value', street1);
-                            } else if (settings.useStreet3AsHouseNumber != 0) {
-                                self.updateFields(['street.0'], 'error', false);
-                                self.updateFields(['street.0'], 'value', response.street);
-                                self.updateFields(['street.1'], 'value', response.houseNumber);
-                                if (response.houseNumberAddition) {
-                                    self.updateFields(['street.2'], 'value', response.houseNumberAddition);
-                                }
                             } else {
                                 var street0 = response.street + ' ' + response.houseNumber;
                                 if (response.houseNumberAddition) {
