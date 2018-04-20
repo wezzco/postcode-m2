@@ -13,17 +13,17 @@ class Data extends AbstractHelper
     /**
      * @var ProductMetadataInterface
      */
-    protected $productMetadataInterface;
+    private $productMetadataInterface;
 
     /**
      * @var ModuleListInterface
      */
-    protected $moduleList;
+    private $moduleList;
 
     /**
      * @var null
      */
-    protected $modules = null;
+    private $modules = null;
 
     /**
      * Data constructor.
@@ -58,7 +58,8 @@ class Data extends AbstractHelper
     {
         $extensionInfo = $this->getModuleInfo('PostcodeNl_Api');
 
-        $extensionVersion = ($extensionInfo && isset($extensionInfo['version'])) ? (string) $extensionInfo['version'] : 'unknown';
+        $extensionVersion = ($extensionInfo && isset($extensionInfo['version']))
+            ? (string) $extensionInfo['version'] : 'unknown';
 
         return $extensionVersion;
     }
@@ -85,7 +86,7 @@ class Data extends AbstractHelper
      * @param $moduleName
      * @return null
      */
-    protected function getModuleInfo($moduleName)
+    private function getModuleInfo($moduleName)
     {
         $modules = $this->getMagentoModules();
 
@@ -126,7 +127,7 @@ class Data extends AbstractHelper
      *
      * @return int
      */
-    protected function getEnrichType()
+    private function getEnrichType()
     {
         return 0;
     }
@@ -135,9 +136,11 @@ class Data extends AbstractHelper
      * Method to check for SSL support in CURL
      * @return int
      */
-    protected function curlHasSsl()
+    private function curlHasSsl()
     {
+        // @codingStandardsIgnoreStart
         $curlVersion = curl_version();
+        // @codingStandardsIgnoreEnd
 
         return $curlVersion['features'] & CURL_VERSION_SSL;
     }
@@ -153,7 +156,9 @@ class Data extends AbstractHelper
 
         if (!$this->curlHasSsl()) {
             $result = [
-                'message' => $this->__('Cannot connect to Postcode.nl API: Server is missing SSL (https) support for CURL.')];
+                'message' =>
+                $this->__('Cannot connect to Postcode.nl API: Server is missing SSL (https) support for CURL.')
+            ];
         }
 
         return $result;

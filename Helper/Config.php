@@ -2,28 +2,26 @@
 
 namespace Wezz\Postcode\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
-
 /**
  * Class Data
  * @package Wezz\Postcode\Helper
  */
-class Config extends AbstractHelper
+class Config
 {
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $scopeConfig;
+    private $scopeConfig;
 
     /**
      * @var string
      */
-    protected $scopeStore;
+    private $scopeStore = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 
     /**
      * @var \Magento\Developer\Helper\Data
      */
-    protected $developerHelper;
+    private $developerHelper;
 
     /**
      * Config constructor.
@@ -35,7 +33,6 @@ class Config extends AbstractHelper
         \Magento\Developer\Helper\Data $developerHelper
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->scopeStore = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $this->developerHelper = $developerHelper;
     }
 
@@ -130,14 +127,13 @@ class Config extends AbstractHelper
     /**
      * Get api_showcase configuration
      *
+     * Not used now;
+     *
      * @return mixed
      */
     public function getApiShowcase()
     {
-        return $this->scopeConfig->getValue(
-            'postcodenl_api/development_config/api_showcase',
-            $this->scopeStore
-        );
+        return false;
     }
 
     /**
@@ -197,7 +193,10 @@ class Config extends AbstractHelper
             'countryCode' => 'NL',
             'translations' => [
                 'defaultError' => __('Unknown postcode + housenumber combination.'),
-                'fillOut' => __('<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address.'),
+                'fillOut' => __(
+                    '<h3>Address validation</h3>
+                    Fill out your postcode and housenumber to auto-complete your address.'
+                ),
                 'select' => __('Select...'),
                 'validatedAddress' => __('Validated address'),
                 'yourAddress' => __('Your address:')
@@ -242,7 +241,10 @@ class Config extends AbstractHelper
         $result = [];
 
         if (!$this->getApiUrl() || !$this->getApiKey() || !$this->getApiSecret()) {
-            $result = ['message' => __('Postcode.nl API not configured.'), 'info' => [__('Configure your `API key` and `API secret`.')]];
+            $result = [
+                'message' => __('Postcode.nl API not configured.'),
+                'info' => [__('Configure your `API key` and `API secret`.')]
+            ];
         }
 
         return $result;

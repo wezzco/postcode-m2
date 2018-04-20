@@ -11,7 +11,7 @@ class Address
     /**
      * @var \Wezz\Postcode\Api\ClientApi
      */
-    protected $clientApi;
+    private $clientApi;
 
     /**
      * Address constructor.

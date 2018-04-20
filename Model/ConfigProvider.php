@@ -13,7 +13,7 @@ class ConfigProvider implements ConfigProviderInterface
     /**
      * @var HelperData
      */
-    protected $helperConfig;
+    private $helperConfig;
 
     /**
      * ConfigProvider constructor.

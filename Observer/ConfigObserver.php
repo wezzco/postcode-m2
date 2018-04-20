@@ -14,14 +14,14 @@ class ConfigObserver implements ObserverInterface
     /**
      * @var \Wezz\Postcode\Model\Api\ClientApi
      */
-    protected $clientApi;
+    private $clientApi;
 
     /**
      * @var \Magento\Framework\Notification\NotifierInterface|NotifierPool
      */
-    protected $notifierPool;
+    private $notifierPool;
 
-    protected $messageManager;
+    private $messageManager;
 
     /**
      * ConfigObserver constructor.
@@ -40,11 +40,12 @@ class ConfigObserver implements ObserverInterface
 
     /**
      * Method execute observer
-     *
      * @param EventObserver $observer
      */
     public function execute(EventObserver $observer)
     {
+        $observer;
+
         $result = $this->clientApi->testConnection();
 
         if (isset($result['status']) && isset($result['message'])) {
@@ -55,7 +56,8 @@ class ConfigObserver implements ObserverInterface
             }
 
             if (isset($result['info'])) {
-                $this->messageManager->addNoticeMessage(__('Postcode.nl API Test Troubleshooting: ') . ' '. implode(' // ', $result['info']));
+                $this->messageManager->addNoticeMessage(__('Postcode.nl API Test Troubleshooting: ')
+                    . ' '. implode(' // ', $result['info']));
             }
         }
     }

@@ -18,32 +18,32 @@ class ClientApi
     /**
      * @var \Wezz\Postcode\Helper\Data
      */
-    protected $helperData;
+    private $helperData;
 
     /**
      * @var \Wezz\Postcode\Helper\Config
      */
-    protected $helperConfig;
+    private $helperConfig;
 
     /**
      * @var
      */
-    protected $httpResponseRaw;
+    private $httpResponseRaw;
 
     /**
      * @var
      */
-    protected $httpResponseCode;
+    private $httpResponseCode;
 
     /**
      * @var
      */
-    protected $httpResponseCodeClass;
+    private $httpResponseCodeClass;
 
     /**
      * @var
      */
-    protected $httpClientError;
+    private $httpClientError;
 
     /**
      * ClientApi constructor.
@@ -58,6 +58,7 @@ class ClientApi
         $this->helperConfig = $helperConfig;
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Lookup information about a Dutch address by postcode, house number, and house number addition
      *
@@ -70,6 +71,7 @@ class ClientApi
      */
     public function lookupAddress($postcode, $houseNumber, $houseNumberAddition = '', $testConnection = false)
     {
+
         /**
          * Check for preconditions to API correct work
          */
@@ -87,20 +89,25 @@ class ClientApi
             return $response;
         }
 
-        $url = $this->helperConfig->getApiUrl() . '/rest/addresses/postcode/' . rawurlencode($postcode). '/'. rawurlencode($houseNumber) . '/'. rawurlencode($houseNumberAddition);
+        $url = $this->helperConfig->getApiUrl() . '/rest/addresses/postcode/'
+            . rawurlencode($postcode). '/'. rawurlencode($houseNumber) . '/'
+            . rawurlencode($houseNumberAddition);
         $url = trim($url);
 
         $jsonResult = $this->callApiUrlGet($url);
 
+
         if ($this->httpResponseCode == 200 && !empty($jsonResult) && isset($jsonResult['postcode'])) {
-            if ($this->helperConfig->getBlockPostAddresses() && isset($jsonResult['addressType']) && $jsonResult['addressType'] == 'PO box') {
+            if ($this->helperConfig->getBlockPostAddresses()
+                && isset($jsonResult['addressType']) && $jsonResult['addressType'] == 'PO box') {
                 $this->httpResponseCode = 400;
                 $response['message'] = __('Post office box not allowed.');
                 $response['messageTarget'] = 'postcode';
             } else {
                 $response = $jsonResult;
             }
-        } elseif (isset($jsonResult['exceptionId']) && ($this->httpResponseCode == 400 || $this->httpResponseCode == 404)) {
+        } elseif (isset($jsonResult['exceptionId'])
+            && ($this->httpResponseCode == 400 || $this->httpResponseCode == 404)) {
             switch ($jsonResult['exceptionId']) {
                 case 'PostcodeNl_Controller_Address_PostcodeTooShortException':
                 case 'PostcodeNl_Controller_Address_PostcodeTooLongException':
@@ -126,8 +133,6 @@ class ClientApi
                     $response['messageTarget'] = 'housenumber';
                     break;
             }
-
-            //$response = array_merge($response, $this->errorResponse());
         }
 
         if ($this->helperConfig->getIsDebug() || $testConnection) {
@@ -173,35 +178,47 @@ class ClientApi
             $message = __('Your server could not connect to the Postcode.nl server.');
 
             // Do some common SSL CA problem detection
-            if (strpos($addressData['debugInfo']['httpClientError'], 'SSL certificate problem, verify that the CA cert is OK') !== false) {
+            $needleMessage = 'SSL certificate problem, verify that the CA cert is OK';
+            $needleMessageLocalIssuer = 'unable to get local issuer certificate';
+
+            if (strpos($addressData['debugInfo']['httpClientError'], $needleMessage) !== false) {
                 $info[] = __('Your servers\' \'cURL SSL CA bundle\' is missing or outdated. Further information:');
-                $info[] = '- <a href="https://stackoverflow.com/questions/6400300/https-and-ssl3-get-server-certificatecertificate-verify-failed-ca-is-ok" target="_blank">'. __('How to update/fix your CA cert bundle') .'</a>';
-                $info[] = '- <a href="https://curl.haxx.se/docs/sslcerts.html" target="_blank">'. __('About cURL SSL CA certificates') .'</a>';
+                $info[] =
+                    '- <a href="https://stackoverflow.com/questions/6400300/https' .
+                    '-and-ssl3-get-server-certificatecertificate-verify-failed-ca-is-ok" target="_blank">'
+                    . __('How to update/fix your CA cert bundle') .'</a>';
+                $info[] = '- <a href="https://curl.haxx.se/docs/sslcerts.html" target="_blank">'
+                    . __('About cURL SSL CA certificates') .'</a>';
                 $info[] = '';
-            } elseif (strpos($addressData['debugInfo']['httpClientError'], 'unable to get local issuer certificate') !== false) {
+            } elseif (strpos($addressData['debugInfo']['httpClientError'], $needleMessageLocalIssuer) !== false) {
                 $info[] = __('cURL cannot read/access the CA cert file:');
-                $info[] = '- <a href="https://curl.haxx.se/docs/sslcerts.html" target="_blank">'. __('About cURL SSL CA certificates') .'</a>';
+                $info[] = '- <a href="https://curl.haxx.se/docs/sslcerts.html" target="_blank">'
+                    . __('About cURL SSL CA certificates') .'</a>';
                 $info[] = '';
             } else {
                 $info[] = __('Connection error.');
             }
 
             $info[] = __('Error message:') . ' "'. $addressData['debugInfo']['httpClientError'] .'"';
-            $info[] = '- <a href="https://www.google.com/search?q='. urlencode($addressData['debugInfo']['httpClientError'])  .'" target="_blank">'. __('Google the error message') .'</a>';
+            $info[] = '- <a href="https://www.google.com/search?q='
+                . urlencode($addressData['debugInfo']['httpClientError'])
+                .'" target="_blank">'. __('Google the error message') .'</a>';
             $info[] = '- '. __('Contact your hosting provider if problems persist.');
         } elseif (!is_array($addressData['debugInfo']['parsedResponse'])) {
             // We have not received a valid JSON response
 
             $message = __('The response from the Postcode.nl service could not be understood.');
-            $info[] = '- '. __('The service might be temporarily unavailable, if problems persist, please contact <a href=\'mailto:info@postcode.nl\'>info@postcode.nl</a>.');
+            $info[] = '- '. __('The service might be temporarily unavailable,' .
+            ' if problems persist, please contact <a href=\'mailto:info@postcode.nl\'>info@postcode.nl</a>.');
             $info[] = '- '. __('Technical reason: No valid JSON was returned by the request.');
-        } elseif (is_array($addressData['debugInfo']['parsedResponse']) && isset($addressData['debugInfo']['parsedResponse']['exceptionId'])) {
-            // We have an exception message from the service itself
-
+        } elseif (is_array($addressData['debugInfo']['parsedResponse'])
+            && isset($addressData['debugInfo']['parsedResponse']['exceptionId'])) {
             if ($addressData['debugInfo']['responseCode'] == 401) {
-                if ($addressData['debugInfo']['parsedResponse']['exceptionId'] == 'PostcodeNl_Controller_Plugin_HttpBasicAuthentication_NotAuthorizedException') {
+                if ($addressData['debugInfo']['parsedResponse']['exceptionId']
+                    == 'PostcodeNl_Controller_Plugin_HttpBasicAuthentication_NotAuthorizedException') {
                     $message = __('`API Key` specified is incorrect.');
-                } elseif ($addressData['debugInfo']['parsedResponse']['exceptionId'] == 'PostcodeNl_Controller_Plugin_HttpBasicAuthentication_PasswordNotCorrectException') {
+                } elseif ($addressData['debugInfo']['parsedResponse']['exceptionId']
+                    == 'PostcodeNl_Controller_Plugin_HttpBasicAuthentication_PasswordNotCorrectException') {
                     $message = __('`API Secret` specified is incorrect.');
                 } else {
                     $message = __('Authentication is incorrect.');
@@ -212,12 +229,15 @@ class ClientApi
                 $message = __('Service reported an error.');
             }
 
-            $info[] = __('Postcode.nl service message:') .' "'. $addressData['debugInfo']['parsedResponse']['exception'] .'"';
-        } elseif (is_array($addressData['debugInfo']['parsedResponse']) && !isset($addressData['debugInfo']['parsedResponse']['postcode'])) {
+            $info[] = __('Postcode.nl service message:')
+                .' "'. $addressData['debugInfo']['parsedResponse']['exception'] .'"';
+        } elseif (is_array($addressData['debugInfo']['parsedResponse'])
+            && !isset($addressData['debugInfo']['parsedResponse']['postcode'])) {
             // This message is thrown when the JSON returned did not contain the data expected.
 
             $message = __('The response from the Postcode.nl service could not be understood.');
-            $info[] = '- '. __('The service might be temporarily unavailable, if problems persist, please contact <a href=\'mailto:info@postcode.nl\'>info@postcode.nl</a>.');
+            $info[] = '- '. __('The service might be temporarily unavailable, if problems persist,'
+            . ' please contact <a href=\'mailto:info@postcode.nl\'>info@postcode.nl</a>.');
             $info[] = '- '. __('Technical reason: Received JSON data did not contain expected data.');
         } else {
             $message = __('A test connection to the API was successfully completed.');
@@ -230,6 +250,7 @@ class ClientApi
             'info' => $info
         ];
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Get debug info
@@ -238,7 +259,7 @@ class ClientApi
      * @param $jsonData
      * @return array
      */
-    protected function getDebugInfo($url, $jsonData)
+    private function getDebugInfo($url, $jsonData)
     {
         return [
             'requestUrl' => $url,
@@ -261,25 +282,11 @@ class ClientApi
     }
 
     /**
-     * Method to add main exception
-     *
-     * @return array
-     */
-    protected function errorResponse()
-    {
-        return [
-            'message' => __('Validation error, please use manual input.'),
-            'messageTarget' => 'housenumber',
-            'useManual' => true
-        ];
-    }
-
-    /**
      * Method to check API ready state to correct work
      *
      * @return array
      */
-    protected function checkApiReady()
+    private function checkApiReady()
     {
         if (!$this->helperConfig->getEnabled()) {
             return [
@@ -305,7 +312,7 @@ class ClientApi
      * @param $postcode
      * @return mixed
      */
-    protected function validatePostcodeFormat($postcode)
+    private function validatePostcodeFormat($postcode)
     {
         $result = [];
 
@@ -326,8 +333,9 @@ class ClientApi
      * @param $url
      * @return mixed
      */
-    protected function callApiUrlGet($url)
+    private function callApiUrlGet($url)
     {
+        // @codingStandardsIgnoreStart
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -343,6 +351,7 @@ class ClientApi
         $this->httpClientError = $curlErrno ? sprintf('cURL error %s: %s', $curlErrno, curl_error($ch)) : null;
 
         curl_close($ch);
+        // @codingStandardsIgnoreEnd
 
         return json_decode($this->httpResponseRaw, true);
     }

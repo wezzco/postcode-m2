@@ -168,6 +168,15 @@ define([
                 self.notice(null);
                 self.info(null);
             }
+
+            /**
+             * Hide region input if region select is visible
+             */
+            var regionElement = registry.get(self.parentName + '.region_id');
+            if (regionElement.get('visible')) {
+                self.updateFields(['region_id_input'], 'visible', false);
+            }
+
         },
         /**
          * Update form fields properties
@@ -182,7 +191,6 @@ define([
 
             $.each(fields, function (key, field) {
                 registry.async(self.parentName + '.' + field)(function () {
-                    console.log(field + ' - ' + property + ' - ' + value);
                     registry.get(self.parentName + '.' + field).set(property, value);
                 });
             });

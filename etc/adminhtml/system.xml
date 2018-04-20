@@ -50,11 +50,6 @@
                     <label>API URL</label>
                     <validate>url-validate</validate>
                 </field>
-                <field id="api_showcase" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
-                    <label>Enable API Showcase</label>
-                    <comment><![CDATA[By enabling this option, you will see what additional information the Postcode.nl API has to offer, every time your information is enriched.<br /><em>(this is not recommended in production environments!)</em>]]></comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
                 <field id="api_debug" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label comment" type="select">
                     <label>Show API Debug info</label>
                     <comment><![CDATA[Additional debug information used for trouble-shooting will be sent by the Postcode.nl API extension.<br /><em>(this is not recommended in production environments!)</em>]]></comment>

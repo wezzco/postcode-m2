@@ -14,19 +14,27 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
     /**
      * @var \Wezz\Postcode\Helper\Config
      */
-    protected $helperConfig;
+    private $helperConfig;
+
+    /**
+     * @var \Wezz\Postcode\Model\Api\ClientApi
+     */
+    private $clientApi;
 
     /**
      * LayoutProcessor constructor.
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Wezz\Postcode\Model\Api\ClientApi $clientApi,
      * @param array $data
      */
     public function __construct(
         \Wezz\Postcode\Helper\Config $helperConfig,
         \Magento\Framework\View\Element\Template\Context $context,
+        \Wezz\Postcode\Model\Api\ClientApi $clientApi,
         array $data = []
     ) {
         $this->helperConfig = $helperConfig;
+        $this->clientApi = $clientApi;
         parent::__construct($context, $data);
     }
 
@@ -48,10 +56,17 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
             ['children']
             ['shippingAddress']
             ['children']
-            ['shipping-address-fieldset']
-        )
+            ['shipping-address-fieldset'])
         ) {
-            return true;
+
+            $testConnection = $this->clientApi->testConnection();
+
+            if (isset($testConnection['status']) && $testConnection['status'] == 'success') {
+                return true;
+            }
+            
+            return false;
+
         } else {
             return false;
         }
@@ -71,15 +86,14 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
             ['shipping-step']['children']['shippingAddress']['children']
             ['shipping-address-fieldset']['children'];
 
-        $shippingFields['postcode_fieldset'] = $this->getFieldArray('shippingAddress', 'shipping');
+        $shippingFields['postcode_fieldset'] =
+            $this->getFieldArray('shippingAddress', 'shipping');
 
         $shippingFields = $this->changeFieldPosition($shippingFields);
 
         $result['components']['checkout']['children']['steps']['children']
             ['shipping-step']['children']['shippingAddress']['children']
             ['shipping-address-fieldset']['children'] = $shippingFields;
-
-
 
         $result = $this->getBillingFormFields($result);
 
@@ -94,7 +108,6 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
      */
     public function changeFieldPosition($addressFields)
     {
-
         if (isset($addressFields['street'])) {
             $addressFields['street']['sortOrder'] = '910';
         }
@@ -171,10 +184,10 @@ class LayoutProcessor extends AbstractBlock implements LayoutProcessorInterface
                 ['billing-step']['children']['payment']['children']
                 ['payments-list']['children'][$paymentMethodCode . '-form']['children']['form-fields']['children'];
 
-                $billingFields['postcode_fieldset'] = $this->getFieldArray('billingAddress' . $paymentMethodCode, 'billing');
+                $billingFields['postcode_fieldset'] = $this->getFieldArray('billingAddress' .
+                    $paymentMethodCode, 'billing');
 
                 $billingFields = $this->changeFieldPosition($billingFields);
-
 
                 $result['components']['checkout']['children']['steps']['children']['billing-step']
                 ['children']['payment']['children']['payments-list']['children'][$paymentMethodCode . '-form']

@@ -14,7 +14,7 @@ class LayoutOSCProcessor extends AbstractBlock implements LayoutProcessorInterfa
     /**
      * @var \Wezz\Postcode\Helper\Config
      */
-    protected $helperConfig;
+    private $helperConfig;
 
     /**
      * LayoutProcessor constructor.
@@ -122,14 +122,17 @@ class LayoutOSCProcessor extends AbstractBlock implements LayoutProcessorInterfa
                 $paymentMethodCode = str_replace('-form', '', $paymentMethodForm);
 
                 if (!isset($result['components']['checkout']['children']['paymentMethod']['children']
-                    ['billingAddress']['children']['billing-address-fieldset']['children'][$paymentMethodCode . '-form'])) {
+                    ['billingAddress']['children']['billing-address-fieldset']['children']
+                    [$paymentMethodCode . '-form'])) {
                     continue;
                 }
 
                 $billingFields = $result['components']['checkout']['children']['paymentMethod']['children']
-                ['billingAddress']['children']['billing-address-fieldset']['children'][$paymentMethodCode . '-form']['children']['form-fields']['children'];
+                ['billingAddress']['children']['billing-address-fieldset']['children']
+                [$paymentMethodCode . '-form']['children']['form-fields']['children'];
 
-                $billingFields['postcode_fieldset'] = $this->getFieldArray('billingAddress' . $paymentMethodCode, 'billing');
+                $billingFields['postcode_fieldset'] =
+                    $this->getFieldArray('billingAddress' . $paymentMethodCode, 'billing');
 
                 $result['components']['checkout']['children']['paymentMethod']['children']
                 ['billingAddress']['children']['billing-address-fieldset']['children'][$paymentMethodCode . '-form']
