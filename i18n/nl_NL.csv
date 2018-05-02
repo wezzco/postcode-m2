@@ -71,3 +71,5 @@
 "Additional debug information used for trouble-shooting will be sent by the Postcode.nl API extension.<br /><em>(this is not recommended in production environments!)</em>","Extra debug informatie zal getoond worden door de extensie.<br /><em>(dit is niet aanbevolen in productie omgeving!)</em>"
 "Enabled in admin","Ingeschakeld in admin"
 "You can disable this option if you encounter problems in the admin address validation, or want to allow all addresses in the admin.","U kunt deze optie uitschakelen wanneer u problemen ondervindt met de adresvalidatie in de admin sectie van Maqgento, of wanneer u alle adressen in de admin wil toestaan"
+"<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address.","<h3>Adres</h3>Vul uw postcode en huisnummer in en uw adres wordt automatisch en foutloos aangevuld."
+"Your address:","Uw adres:"

@@ -72,3 +72,4 @@
 "Additional debug information used for trouble-shooting will be sent by the Postcode.nl API extension.<br /><em>(this is not recommended in production environments!)</em>","Additional debug information used for trouble-shooting will be sent by the Postcode.nl API extension.<br /><em>(this is not recommended in production environments!)</em>"
 "Enabled in admin","Enabled in admin"
 "You can disable this option if you encounter problems in the admin address validation, or want to allow all addresses in the admin.","You can disable this option if you encounter problems in the admin address validation, or want to allow all addresses in the admin."
+"<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address.","<h3>Address validation</h3>Fill out your postcode and housenumber to auto-complete your address."
