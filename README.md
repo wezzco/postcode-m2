@@ -69,7 +69,7 @@ Now, you can log in to the Magento backend and configure and enable the extensio
 
 Navigate to the module configuration using the following path:
 
-__Stores__ -> __Configuration__ -> __Sales__ -> Postocde
+__Stores__ -> __Configuration__ -> __Sales__ -> Postcode
 
 ### Fields
 
@@ -85,4 +85,4 @@ Fill in the following fields to configure your Postcode.nl API Magento 2 module.
 
 ## Troubleshooting
 
-For __Frequently Asked Questions__ please visit [https://www.wezz.co/extensions/postcode.nl-api-magento-extension](The FAQ page).
+For __Frequently Asked Questions__ please visit [https://www.wezz.co/extensions/postcode.nl-api-magento-extension] (The FAQ page).
